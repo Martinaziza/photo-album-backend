@@ -1,6 +1,7 @@
-const app = require("./app");
+import "dotenv/config";       
+import app from "./app.js";  
 
-// ℹ️ Sets the PORT for our app to have access to it. If no env has been set, we hard code it to 5005
+// ℹ️ Sets the PORT for our app. Defaults to 5005 if not in .env
 const PORT = process.env.PORT || 5005;
 
 app.listen(PORT, () => {
