@@ -15,13 +15,15 @@ const app = express();
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 import setupMiddleware from "./config/index.js";
 setupMiddleware(app)
-// require("./config")(app);
 
 // 👇 Start handling routes here
 import indexRoutes from "./routes/index.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import albumRoutes from "./routes/album.routes.js"
+
 app.use("/api", indexRoutes);
 app.use ("/auth", authRoutes)
+app.use("/api", albumRoutes)
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 import setupErrorHandling from "./error-handling/index.js"; 

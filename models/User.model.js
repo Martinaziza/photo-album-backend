@@ -18,7 +18,10 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, 'Password is required.']
-    }
+    },
+    profileImage: {
+      type: String,
+      default: "https://thumbs.dreamstime.com/b/default-profile-picture-icon-high-resolution-high-resolution-default-profile-picture-icon-symbolizing-no-display-picture-360167031.jpg"}
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`    

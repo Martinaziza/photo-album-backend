@@ -5,12 +5,6 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.model.js"
 import isAuthenticated from "../middleware/jwt.middleware.js"
 
-// const express = require("express");
-// const User = require("./models/User.model");
-// const isAuthenticated = require("./middleware/jwt.middleware");
-// const jwt = require("jsonwebtoken");
-// const bcrypt = require("bcryptjs");
-
 router.post("/signup", async (req, res)=>{
     try {
     const {username, email, password} = req.body
@@ -67,7 +61,7 @@ router.post("/login", async (req, res) => {
       username: foundUser.username,
     }
 
-    const authToken = jwt.sign(payload, "t0k3n$ecr3t", {
+    const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
       expiresIn: "6h",
       algorithm: "HS256",
     })
@@ -82,7 +76,17 @@ router.post("/login", async (req, res) => {
 router.get("/verify", isAuthenticated, (req, res) => {
   console.log(req.payload)
 
-  res.status(200).json("verified")
+  res.status(200).json({message: "verified backend", currentUser: req.payload._id})
+})
+
+router.get("/users", async (req, res)=>{
+try {
+  const user = await User.find()
+  res.status(200).json(user)
+} catch (error) {
+  console.log(error)
+}
+
 })
 
 router.get ("/users/:id", isAuthenticated, async (req, res)=>{
