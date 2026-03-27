@@ -9,17 +9,17 @@ router.post("/signup", async (req, res)=>{
     try {
     const {username, email, password} = req.body
     if (!username || !email || !password){
-        return res.status(400).json({message: "Please provide all info"})
+        return res.status(500).json({message: "Please provide all info"})
     }
 
     const foundUser = await User.findOne({ $or: [{email}, {username}]})
     if (foundUser) {
-        return res.status(400).json({message: "Email or username already taken"} )
+        return res.status(500).json({message: "Email or username already taken"} )
     }
 
-    if (!password.match("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$",)){
-return res.status(400).json({message: "Password needs at least 8 characters, and numbers"})
-    }
+//     if (!password.match("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$",)){
+// return res.status(400).json({message: "Password needs at least 8 characters, and numbers"})
+//     }
     
     const salts = await bcrypt.genSalt(12)
     const hashedPassword = await bcrypt.hash(password, salts)
@@ -79,6 +79,13 @@ router.get("/verify", isAuthenticated, (req, res) => {
   res.status(200).json({message: "verified backend", currentUser: req.payload._id})
 })
 
+// router.get("/verify", isAuthenticated, async (req, res) => {
+//   const currentLoggedInUser = await UserModel.findById(req.payload._id).select(
+//     "-password -email",
+//   );
+//   res.status(200).json({ message: "Token is valid :) ", currentLoggedInUser });
+// });
+
 router.get("/users", async (req, res)=>{
 try {
   const user = await User.find()
@@ -92,7 +99,6 @@ try {
 router.get ("/users/:id", isAuthenticated, async (req, res)=>{
     
     try{
- 
 const user = await User.findById(req.params.id).select("-password");
 res.status(200).json(user)
 
