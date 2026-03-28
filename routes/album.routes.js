@@ -19,12 +19,12 @@ router.post("/users/:userId/album", async (req, res, next)=> {
 }
 )
 
+// /api/users/69c29581c693aa18fe4acf08/album 
 //fetch all albums by one user
 router.get("/users/:userId/album", async (req, res, next) => {
     try {
-        // const { id } = req.params
-        //{user: id}
-    const allAlbums = await Album.find().populate("user", "username")
+       
+    const allAlbums = await Album.find({user: req.params.userId}).populate("user", "username")
     res.status(200).json(allAlbums)
     } catch (error) {
        console.log(error) 
@@ -35,7 +35,8 @@ router.get("/users/:userId/album", async (req, res, next) => {
 // fetch one album by Id
 router.get("/album/:albumId", async (req, res, next) => {
 try {
-    const oneAlbum = await Album.findById(req.params.albumId).populate("user", "username")
+    const oneAlbum = await Album.findById(req.params.albumId)
+    // .populate("user", "username")
     res.status(200).json(oneAlbum)
 } catch (error) {
     console.log(error) 
@@ -72,13 +73,4 @@ try {
 
 
 export default router
-
-
-
-
-// get single photo
-// update photo info
-// delete photo
-// create + get commemts
-// patch profile pic
 

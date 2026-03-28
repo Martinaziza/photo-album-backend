@@ -86,9 +86,11 @@ router.get("/verify", isAuthenticated, (req, res) => {
 //   res.status(200).json({ message: "Token is valid :) ", currentLoggedInUser });
 // });
 
+
+//get all users
 router.get("/users", async (req, res)=>{
 try {
-  const user = await User.find()
+  const user = await User.find().sort({ createdAt: -1 });
   res.status(200).json(user)
 } catch (error) {
   console.log(error)
@@ -96,6 +98,8 @@ try {
 
 })
 
+
+// get user by id
 router.get ("/users/:id", isAuthenticated, async (req, res)=>{
     
     try{

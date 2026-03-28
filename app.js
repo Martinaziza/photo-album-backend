@@ -21,11 +21,13 @@ import indexRoutes from "./routes/index.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import albumRoutes from "./routes/album.routes.js"
 import photoRoutes from "./routes/photo.routes.js"
+import commentRoutes from "./routes/comment.routes.js"
 
 app.use("/api", indexRoutes);
 app.use ("/auth", authRoutes)
 app.use("/api", albumRoutes)
 app.use("/api", photoRoutes)
+app.use("/api", commentRoutes)
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 import setupErrorHandling from "./error-handling/index.js"; 
