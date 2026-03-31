@@ -27,7 +27,7 @@ router.post("/photo/:photoId/comment", async (req, res, next)=> {
 router.get("/photo/:photoId/comment", async (req, res, next) => {
 try {
     const comments = await Comment.find({photo: req.params.photoId})
-    .populate("user", "username")
+    .populate("user", "username profileImage")
     res.status(200).json(comments)
 } catch (error) {
     console.log(error) 

@@ -19,7 +19,8 @@ router.post("/users/:userId/album", async (req, res, next)=> {
 }
 )
 
-// /api/users/69c29581c693aa18fe4acf08/album 
+// /api/users/69c29581c693aa18fe4acf08/album  (aragorn)
+// /api/users/69c582f593b548f060f321e1/album/69cbf7e24940917b3fdd22df
 //fetch all albums by one user
 router.get("/users/:userId/album", async (req, res, next) => {
     try {
@@ -46,15 +47,16 @@ try {
 })
 
 //edit album by id
-router.put("/album/:albumId", async (req, res, next) => {
+router.patch("/album/:albumId", async (req, res, next) => {
 try {
-    const updatedAlbum = await Album.findByIdAndUpdate(req.params.albumId, req.body, {new: true})
+    const updatedAlbum = await Album.findByIdAndUpdate(req.params.albumId, {title: req.body.title}, {new: true})
     res.status(200).json(updatedAlbum)
 } catch (error) {
     console.log(error) 
     next(error)
 }
 })
+
 
 
 //delete album by id
@@ -73,4 +75,5 @@ try {
 
 
 export default router
-
+//gimli album
+//album/69cbf7e24940917b3fdd22df
