@@ -14,7 +14,7 @@ router.post("/signup", async (req, res)=>{
 
     const foundUser = await User.findOne({ $or: [{email}, {username}]})
     if (foundUser) {
-        return res.status(500).json({message: "Email or username already taken"} )
+        return res.status(500).json({message: "You shall not pass!"} )
     }
 
 //     if (!password.match("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$",)){
@@ -44,16 +44,16 @@ router.post("/login", async (req, res) => {
     const { username, password } = req.body
 
     if (!username || !password) {
-      return res.status(400).json({ message: "Please provide all info" })
+      return res.status(400).json({ message: "You shall not pass!" })
     }
 
     const foundUser = await User.findOne({ username })
     if (!foundUser) {
-      return res.status(400).json({ message: "You shall not pass" })
+      return res.status(400).json({ message: "You shall not pass!" })
     }
 
     if (!bcrypt.compareSync(password, foundUser.password)) {
-      return res.status(400).json({ message: "You shall not pass" })
+      return res.status(400).json({ message: "You shall not pass!" })
     }
 
     const payload = {
@@ -79,18 +79,12 @@ router.get("/verify", isAuthenticated, (req, res) => {
   res.status(200).json({message: "verified backend", currentUser: req.payload._id})
 })
 
-// router.get("/verify", isAuthenticated, async (req, res) => {
-//   const currentLoggedInUser = await UserModel.findById(req.payload._id).select(
-//     "-password -email",
-//   );
-//   res.status(200).json({ message: "Token is valid :) ", currentLoggedInUser });
-// });
 
 
 //get all users
 router.get("/users", async (req, res)=>{
 try {
-  const user = await User.find().sort({ createdAt: -1 });
+  const user = await User.find().sort({ createdAt: -1 }).limit(3);
   res.status(200).json(user)
 } catch (error) {
   console.log(error)

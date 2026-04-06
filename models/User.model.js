@@ -21,7 +21,7 @@ const userSchema = new Schema(
     },
     profileImage: {
       type: String,
-      default: "https://thumbs.dreamstime.com/b/default-profile-picture-icon-high-resolution-high-resolution-default-profile-picture-icon-symbolizing-no-display-picture-360167031.jpg"}
+      default: "https://www.logista.it/etc.clientlibs/logista-corporate/clientlibs/clientlib-base/resources/icons/user_white.png"}
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`    
