@@ -82,9 +82,9 @@ router.get("/verify", isAuthenticated, (req, res) => {
 
 
 //get all users
-router.get("/users", async (req, res)=>{
+router.get("/users", isAuthenticated,  async (req, res)=>{
 try {
-  const user = await User.find().sort({ createdAt: -1 }).limit(3);
+  const user = await User.find({_id: {$ne: req.payload._id}}).sort({ createdAt: -1 }).limit(3);
   res.status(200).json(user)
 } catch (error) {
   console.log(error)
