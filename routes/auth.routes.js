@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.model.js"
 import isAuthenticated from "../middleware/jwt.middleware.js"
+import { uploadCloud } from "../middleware/cloudinary.config.js";
 
 router.post("/signup", async (req, res)=>{
     try {
@@ -107,4 +108,28 @@ res.status(500).json(error)
     }
    
 })
+
+router.patch('/users/:id/upload', isAuthenticated, uploadCloud.single('profilePic'), async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { profileImage: req.file.path }, // 'path' contains the Cloudinary URL
+      { new: true }
+    );
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: "Upload failed", error });
+  }
+});
+
+
+
+
 export default router
